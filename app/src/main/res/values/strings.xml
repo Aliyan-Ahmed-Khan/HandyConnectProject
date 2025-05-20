@@ -4,8 +4,14 @@
     <string name="select_user_type">Select User Type</string>
     <string-array name="user_types">
         <item>Select User Type</item>
-        <item>Service Seeker</item>
-        <item>Employee</item>
+        <item>Worker</item>
+        <item>Seeker</item>
     </string-array>
+
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
 
 </resources>
