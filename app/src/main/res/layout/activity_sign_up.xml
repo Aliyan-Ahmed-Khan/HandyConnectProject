@@ -192,17 +192,29 @@
             app:layout_constraintTop_toBottomOf="@id/radioGroupGender" />
 
 
-        <!-- Upload Image -->
-    <Button
-        android:id="@+id/buttonUploadImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload Profile Image"
-        android:enabled="false"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/editTextLocation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Profile ImageView -->
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Profile Image Preview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextLocation" />
+
+        <!-- Upload Image Button -->
+        <Button
+            android:id="@+id/buttonUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:enabled="false"
+            android:text="Upload Profile Image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
 
     <!-- Field of Expertise -->
         <EditText
@@ -241,8 +253,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"/>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
 
     <style name="Theme.Project" parent="Base.Theme.Project" />
 </resources>
