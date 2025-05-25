@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_History" android:title="History" android:icon="@drawable/history" />
+        <item android:id="@+id/nav_bookmark" android:title="Bookmarks" android:icon="@drawable/bookmark" />
+        <item android:id="@+id/nav_logout" android:title="Logout" android:icon="@drawable/logout" />
+
+    </group>
+</menu>

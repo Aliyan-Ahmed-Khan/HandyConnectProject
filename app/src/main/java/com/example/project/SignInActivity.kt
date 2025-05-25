@@ -1,5 +1,7 @@
 package com.example.project
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -12,10 +14,16 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var signInButton: Button
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-
+        val clickMeButton = findViewById<Button>(R.id.clickme)
+        clickMeButton.setOnClickListener {
+            // Navigate to MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            /*
         userTypeSpinner = findViewById(R.id.userTypeSpinner)
         emailEditText = findViewById(R.id.editTextEmail)
         passwordEditText = findViewById(R.id.editTextPassword)
@@ -50,12 +58,12 @@ class SignInActivity : AppCompatActivity() {
                 // Handle your login logic here
                 Toast.makeText(this, "Logging in $userType: $email", Toast.LENGTH_SHORT).show()
             }
+        }*/
         }
-    }
-
+        /*
     private fun setFormEnabled(enabled: Boolean) {
         emailEditText.isEnabled = enabled
         passwordEditText.isEnabled = enabled
 
-    }
-}
+    }*/
+    }}
