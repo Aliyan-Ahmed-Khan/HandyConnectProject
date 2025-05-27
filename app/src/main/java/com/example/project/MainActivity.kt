@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
 
-        // Menu icon inside main_search_activity layout
         val menuIcon = findViewById<ImageView>(R.id.menuIcon)
         menuIcon.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
@@ -35,7 +34,10 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_History -> Toast.makeText(this, "History clicked", Toast.LENGTH_SHORT).show()
                 R.id.nav_bookmark -> Toast.makeText(this, "Bookmark clicked", Toast.LENGTH_SHORT).show()
-                R.id.nav_logout -> Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
+                R.id.nav_logout -> {
+                    Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
+                    finish() // Optional: finish activity on logout
+                }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val headerView = navigationView.getHeaderView(0)
         val profileImage = headerView.findViewById<ImageView>(R.id.profile_image)
         val userNameText = headerView.findViewById<TextView>(R.id.user_name)
+        val userEmailText = headerView.findViewById<TextView>(R.id.user_email)
 
         profileImage.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
@@ -52,8 +55,18 @@ class MainActivity : AppCompatActivity() {
         userNameText.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
-    }
 
+        // Retrieve user info from intent
+        val userName = intent.getStringExtra("userName")
+        val userEmail = intent.getStringExtra("userEmail")
+        val userType = intent.getStringExtra("userType")
+
+        // Update UI
+        userNameText.text = userName
+        userEmailText.text = userEmail
+
+        Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_LONG).show()
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true
@@ -67,5 +80,4 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
 }
