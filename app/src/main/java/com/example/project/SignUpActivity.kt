@@ -1,6 +1,7 @@
 package com.example.project
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -10,7 +11,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -34,6 +34,8 @@ class SignUpActivity : AppCompatActivity() {
     private var hasSpinnerInitialized = false
     private var imageUri: Uri? = null
 
+    private lateinit var dbHelper: UserDatabaseHelper
+
     companion object {
         private const val IMAGE_PICK_CODE = 1001
     }
@@ -41,6 +43,8 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+
+        dbHelper = UserDatabaseHelper(this)
 
         // Initialize views
         userTypeSpinner = findViewById(R.id.userTypeSpinner)
@@ -66,9 +70,7 @@ class SignUpActivity : AppCompatActivity() {
         setFormEnabled(false)
 
         userTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (hasSpinnerInitialized) {
                     val isEnabled = position != 0
                     setFormEnabled(isEnabled)
@@ -105,8 +107,15 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please select your field", Toast.LENGTH_SHORT).show()
             } else {
                 if (validateFields()) {
-                    Toast.makeText(this, "All fields validated successfully!", Toast.LENGTH_SHORT).show()
-                    // Continue with registration
+                    val email = emailEditText.text.toString()
+                    val cnic = cnicEditText.text.toString()
+                    val contact = contactEditText.text.toString()
+
+                    if (isUserUnique(email, cnic, contact)) {
+                        saveUserData()
+                        Toast.makeText(this, "Registered Successfully!", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
                 }
             }
         }
@@ -174,6 +183,59 @@ class SignUpActivity : AppCompatActivity() {
         field.setBackgroundColor(Color.parseColor("#FFCDD2"))
         field.requestFocus()
         return false
+    }
+
+    private fun isUserUnique(email: String, cnic: String, contact: String): Boolean {
+        val db = dbHelper.readableDatabase
+
+        val duplicateFields = mutableListOf<String>()
+
+        val emailCursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(email))
+        if (emailCursor.moveToFirst()) {
+            duplicateFields.add("Email")
+        }
+        emailCursor.close()
+
+        val cnicCursor = db.rawQuery("SELECT * FROM users WHERE cnic = ?", arrayOf(cnic))
+        if (cnicCursor.moveToFirst()) {
+            duplicateFields.add("CNIC")
+        }
+        cnicCursor.close()
+
+        val contactCursor = db.rawQuery("SELECT * FROM users WHERE contact = ?", arrayOf(contact))
+        if (contactCursor.moveToFirst()) {
+            duplicateFields.add("Contact")
+        }
+        contactCursor.close()
+
+        db.close()
+
+        return if (duplicateFields.isEmpty()) {
+            true
+        } else {
+            val message = "${duplicateFields.joinToString(", ")} already exist${if (duplicateFields.size > 1) "!" else "s!"}"
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            false
+        }
+    }
+
+    private fun saveUserData() {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("userType", userTypeSpinner.selectedItem.toString())
+            put("name", nameEditText.text.toString())
+            put("email", emailEditText.text.toString())
+            put("password", passwordEditText.text.toString())
+            put("cnic", cnicEditText.text.toString())
+            put("contact", contactEditText.text.toString())
+            put("location", locationEditText.text.toString())
+            put("expertise", expertiseEditText.text.toString())
+            put("experience", experienceEditText.text.toString())
+            put("gender", if (radioMale.isChecked) "Male" else "Female")
+            put("imageUri", imageUri.toString())
+        }
+        db.insert("users", null, values)
+        db.close()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

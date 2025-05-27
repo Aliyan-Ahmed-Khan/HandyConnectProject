@@ -2,6 +2,7 @@ package com.example.project
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -13,30 +14,25 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var signInButton: Button
+    private lateinit var dbHelper: UserDatabaseHelper
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        val clickMeButton = findViewById<Button>(R.id.clickme)
-        clickMeButton.setOnClickListener {
-            // Navigate to MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            /*
+
         userTypeSpinner = findViewById(R.id.userTypeSpinner)
         emailEditText = findViewById(R.id.editTextEmail)
         passwordEditText = findViewById(R.id.editTextPassword)
         signInButton = findViewById(R.id.buttonSignIn)
+        dbHelper = UserDatabaseHelper(this)
 
-        // Initially disable form
         setFormEnabled(false)
 
         userTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                // Enable fields only if user selects valid type
                 setFormEnabled(position != 0)
             }
 
@@ -45,25 +41,82 @@ class SignInActivity : AppCompatActivity() {
             }
         }
 
-
         signInButton.setOnClickListener {
             val userType = userTypeSpinner.selectedItem.toString()
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
-            if(userTypeSpinner.selectedItemPosition == 0){
-                Toast.makeText(this,"Please select a user type first", Toast.LENGTH_SHORT).show()
+            if (userTypeSpinner.selectedItemPosition == 0) {
+                Toast.makeText(this, "Please select a user type first", Toast.LENGTH_SHORT).show()
+            } else if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                if (checkCredentials(userType, email, password)) {
+                    Toast.makeText(this, "Login successful as $userType", Toast.LENGTH_SHORT).show()
+
+                    // Retrieve user details
+                    val userInfo = getUserInfo(userType, email, password)
+                    if (userInfo != null) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("userName", userInfo.name)
+                        intent.putExtra("userEmail", userInfo.email)
+                        intent.putExtra("userType", userInfo.userType)
+                        startActivity(intent)
+                        finish()
+                    }
+                } else {
+                    Toast.makeText(this, "Invalid email or password!", Toast.LENGTH_SHORT).show()
+                }
             }
-            else {
-                // Handle your login logic here
-                Toast.makeText(this, "Logging in $userType: $email", Toast.LENGTH_SHORT).show()
-            }
-        }*/
         }
-        /*
+
+        val clickMeButton = findViewById<Button>(R.id.clickme)
+        clickMeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
     private fun setFormEnabled(enabled: Boolean) {
         emailEditText.isEnabled = enabled
         passwordEditText.isEnabled = enabled
+        signInButton.isEnabled = enabled
+    }
 
-    }*/
-    }}
+    private fun checkCredentials(userType: String, email: String, password: String): Boolean {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM users WHERE userType = ? AND email = ? AND password = ?",
+            arrayOf(userType, email, password)
+        )
+        val isValid = cursor.moveToFirst()
+        cursor.close()
+        db.close()
+        return isValid
+    }
+
+    private fun getUserInfo(userType: String, email: String, password: String): User? {
+        val db = dbHelper.readableDatabase
+        val cursor: Cursor = db.rawQuery(
+            "SELECT * FROM users WHERE userType = ? AND email = ? AND password = ?",
+            arrayOf(userType, email, password)
+        )
+        var user: User? = null
+        if (cursor.moveToFirst()) {
+            val nameIndex = cursor.getColumnIndex("name")
+            val emailIndex = cursor.getColumnIndex("email")
+            val userTypeIndex = cursor.getColumnIndex("userType")
+            if (nameIndex != -1 && emailIndex != -1 && userTypeIndex != -1) {
+                val name = cursor.getString(nameIndex)
+                val emailFromDB = cursor.getString(emailIndex)
+                val type = cursor.getString(userTypeIndex)
+                user = User(name, emailFromDB, type)
+            }
+        }
+        cursor.close()
+        db.close()
+        return user
+    }
+
+    data class User(val name: String, val email: String, val userType: String)
+}
