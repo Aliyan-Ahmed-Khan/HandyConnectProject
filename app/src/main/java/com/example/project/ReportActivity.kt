@@ -1,4 +1,4 @@
-package com.example.yourapp
+package com.example.project
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -21,7 +21,6 @@ class ReportActivity : AppCompatActivity() {
         val reportInput = findViewById<EditText>(R.id.report_input)
         val reportButton = findViewById<Button>(R.id.submit_button)
 
-        // Get worker name from intent
         workerName = intent.getStringExtra("worker_name") ?: "the worker"
 
         reportButton.setOnClickListener {

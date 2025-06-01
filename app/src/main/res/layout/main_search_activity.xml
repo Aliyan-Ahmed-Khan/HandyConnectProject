@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 🌐 Header with Menu Icon + Logo + Sign Out -->
+    <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,98 +22,51 @@
             android:contentDescription="Menu"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            app:tint="@android:color/white" />
+            android:tint="#FFFFFF"
+            tools:ignore="UseAppTint" />
 
         <ImageView
             android:id="@+id/logoImage"
             android:layout_width="40dp"
             android:layout_height="42dp"
-            android:layout_marginStart="132dp"
-            android:layout_toEndOf="@id/menuIcon"
-            android:contentDescription="Logo"
-            android:src="@drawable/handshake_logo" />
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/handshake_logo"
+            android:contentDescription="Logo" />
 
         <ImageButton
             android:id="@+id/buttonProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:contentDescription="Profile"
             android:src="@drawable/person"
-            tools:ignore="TouchTargetSizeCheck" />
-
+            android:tint="@android:color/white"
+            tools:ignore="UseAppTint"/>
     </RelativeLayout>
 
-    <!-- 🔍 Search Bar -->
+    <!-- Search Bar -->
     <AutoCompleteTextView
         android:id="@+id/searchDropdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search worker..."
-        android:layout_margin="16dp"
         android:padding="12dp"
-        android:drawableStart="@android:drawable/ic_menu_search"
+        android:layout_margin="16dp"
+        android:background="@android:drawable/edit_text"
         android:inputType="text" />
 
-    <!-- 🗂️ Scrollable Profile List -->
+    <!-- Profiles Container -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/profileContainer"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <!-- Example Profile Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <TextView android:text="Name: John Doe"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView android:text="Email: john@example.com"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView android:text="Contact: 0300-1234567"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView android:text="Age: 29"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:rating="4.5"
-                        android:stepSize="0.5"
-                        android:isIndicator="true"
-                        android:layout_marginTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Add more profile cards dynamically -->
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/profileContainer"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="16dp" />-->
     </ScrollView>
 </LinearLayout>

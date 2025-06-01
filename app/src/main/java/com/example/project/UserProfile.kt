@@ -1,11 +1,10 @@
 package com.example.project
 
-data class UserProfile(
-    val id: Int = 0,
+data class User(
+    val id: Int,
     val userType: String,
     val name: String,
     val email: String,
-    val password: String,
     val cnic: String,
     val contact: String,
     val location: String,
