@@ -14,5 +14,11 @@
     </string-array>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string-array name="history_filters">
+        <item>All</item>
+        <item>Last 7 Days</item>
+        <item>Most Viewed</item>
+    </string-array>
+
 
 </resources>
