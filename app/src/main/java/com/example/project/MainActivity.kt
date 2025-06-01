@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             userEmailText.text = userEmail
 
             Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_LONG).show()
-            loadWorkerProfiles()
+//            loadWorkerProfiles()
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -104,35 +104,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        private fun loadWorkerProfiles() {
-            val profileContainer = findViewById<LinearLayout>(R.id.profileContainer)
-            profileContainer.removeAllViews()
-
-            val userDatabaseHelper = UserDatabaseHelper(this)
-            val workers = userDatabaseHelper.getAllWorkers()
-            println("Workers count: ${workers.size}")
-            for (worker in workers) {
-                val workerCard =
-                    layoutInflater.inflate(R.layout.worker_card, profileContainer, false)
-
-                val workerImage = workerCard.findViewById<ImageView>(R.id.workerImage)
-                val workerName = workerCard.findViewById<TextView>(R.id.workerName)
-                val workerContact = workerCard.findViewById<TextView>(R.id.workerContact)
-                val workerExpertise = workerCard.findViewById<TextView>(R.id.workerExpertise)
-                val workerExperience = workerCard.findViewById<TextView>(R.id.workerExperience)
-
-                workerName.text = "Name: ${worker.name}"
-                workerContact.text = "Contact: ${worker.contact}"
-                workerExpertise.text = "Expertise: ${worker.expertise}"
-                workerExperience.text = "Experience: ${worker.experience}"
-
-                if (worker.imageUri.isNotEmpty()) {
-                    workerImage.setImageURI(Uri.parse(worker.imageUri))
-                } else {
-                    workerImage.setImageResource(R.drawable.ic_launcher_background)
-                }
-
-                profileContainer.addView(workerCard)
-            }
-        }
+//        private fun loadWorkerProfiles() {
+//            val profileContainer = findViewById<LinearLayout>(R.id.profileContainer)
+//            profileContainer.removeAllViews()
+//
+//            val userDatabaseHelper = UserDatabaseHelper(this)
+//            val workers = userDatabaseHelper.getAllWorkers()
+//            println("Workers count: ${workers.size}")
+//            for (worker in workers) {
+//                val workerCard =
+//                    layoutInflater.inflate(R.layout.worker_card, profileContainer, false)
+//
+//                val workerImage = workerCard.findViewById<ImageView>(R.id.workerImage)
+//                val workerName = workerCard.findViewById<TextView>(R.id.workerName)
+//                val workerContact = workerCard.findViewById<TextView>(R.id.workerContact)
+//                val workerExpertise = workerCard.findViewById<TextView>(R.id.workerExpertise)
+//                val workerExperience = workerCard.findViewById<TextView>(R.id.workerExperience)
+//
+//                workerName.text = "Name: ${worker.name}"
+//                workerContact.text = "Contact: ${worker.contact}"
+//                workerExpertise.text = "Expertise: ${worker.expertise}"
+//                workerExperience.text = "Experience: ${worker.experience}"
+//
+//                if (worker.imageUri.isNotEmpty()) {
+//                    workerImage.setImageURI(Uri.parse(worker.imageUri))
+//                } else {
+//                    workerImage.setImageResource(R.drawable.ic_launcher_background)
+//                }
+//
+//                profileContainer.addView(workerCard)
+//            }
+//        }
     }

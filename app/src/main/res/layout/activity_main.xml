@@ -21,12 +21,7 @@
         app:headerLayout="@layout/nav_header"
         android:background="@android:color/white" />
 
-    <LinearLayout
-        android:id="@+id/profileContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"/>
+
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
