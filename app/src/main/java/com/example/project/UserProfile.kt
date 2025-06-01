@@ -1,5 +1,6 @@
 package com.example.project
 
+import java.io.Serializable
 data class User(
     val id: Int,
     val userType: String,
@@ -12,4 +13,4 @@ data class User(
     val experience: String,
     val gender: String,
     val imageUri: String
-)
+): Serializable

@@ -15,11 +15,14 @@
 
         <activity android:name=".HistoryActivity" />
         <activity android:name=".ReportActivity" />
+        <activity android:name=".WorkerProfileActivity"/>
         <activity android:name=".MainSearchActivity" android:exported="true" />
         <activity android:name=".ProfileActivity" android:exported="true" />
         <activity android:name=".SignUpActivity" android:exported="true" />
         <activity android:name=".SignInActivity" android:exported="true" />
         <activity android:name=".LandingActivity" android:exported="true">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -68,11 +68,11 @@ class UserDatabaseHelper(context: Context) :
     }
 
     fun getAllWorkers(): List<User> {
-
         val db = readableDatabase
         val workerList = mutableListOf<User>()
 
-        val cursor = db.rawQuery("SELECT * FROM users WHERE userType = 'worker'", null)
+        // Using COLLATE NOCASE to make it case-insensitive
+        val cursor = db.rawQuery("SELECT * FROM users WHERE userType = 'worker' COLLATE NOCASE", null)
 
         if (cursor.moveToFirst()) {
             do {
