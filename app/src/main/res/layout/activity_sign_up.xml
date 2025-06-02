@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="false"
-            android:hint="CNIC (e.g., 12345-6789012-3)"
+            android:hint="CNIC (e.g., 1234567890123)"
             android:inputType="number"
             android:minHeight="48dp"
             android:maxLength="13"
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="false"
-            android:hint="Contact Number (11 digits)"
+            android:hint="Contact Number (e.g., 03331122334)"
             android:inputType="phone"
             android:minHeight="48dp"
             android:maxLength="11"
@@ -229,7 +229,8 @@
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonUploadImage" />
+            app:layout_constraintTop_toBottomOf="@id/buttonUploadImage"
+            android:visibility="gone" />
 
     <!-- Experience -->
     <EditText
@@ -242,7 +243,8 @@
         android:enabled="false"
         app:layout_constraintTop_toBottomOf="@id/editTextExpertise"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone" />
 
 
     <Button

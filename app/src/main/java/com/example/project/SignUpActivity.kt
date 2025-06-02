@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import java.security.MessageDigest
 import androidx.appcompat.app.AppCompatActivity
 
 class SignUpActivity : AppCompatActivity() {
@@ -64,11 +65,9 @@ class SignUpActivity : AppCompatActivity() {
         profileImageView = findViewById(R.id.profileImageView)
         signUpButton = findViewById(R.id.buttonSignUp)
 
-        cnicEditText.hint = "e.g. 4212076850083"
-        contactEditText.hint = "e.g. 03001234567"
 
+        // Handling the selected user type shenanigans
         setFormEnabled(false)
-
         userTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (hasSpinnerInitialized) {
@@ -79,6 +78,26 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 } else {
                     hasSpinnerInitialized = true
+                }
+
+                val selectedType = parent?.getItemAtPosition(position).toString()
+                when (selectedType) {
+                    "Seeker" -> {
+                        setFormEnabled(true)
+                        expertiseEditText.visibility = View.GONE
+                        experienceEditText.visibility = View.GONE
+                    }
+
+                    "Worker" -> {
+                        setFormEnabled(true)
+                        expertiseEditText.visibility = View.VISIBLE
+                        experienceEditText.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        setFormEnabled(false)
+                        expertiseEditText.visibility = View.GONE
+                        experienceEditText.visibility = View.GONE
+                    }
                 }
             }
 
@@ -127,6 +146,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    // Enabling the fields after the user type has been selected
     private fun setFormEnabled(enabled: Boolean) {
         nameEditText.isEnabled = enabled
         emailEditText.isEnabled = enabled
@@ -140,13 +160,28 @@ class SignUpActivity : AppCompatActivity() {
         genderRadioGroup.isEnabled = enabled
         radioMale.isEnabled = enabled
         radioFemale.isEnabled = enabled
+        radioMale.isClickable = enabled
+        radioFemale.isEnabled = enabled
         imagePickerButton.isEnabled = enabled
     }
 
+    // Validating the necessary values of the fields
     private fun validateFields(): Boolean {
         val emailPattern = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
         val cnicPattern = Regex("^\\d{13}$")
         val contactPattern = Regex("^\\d{11}$")
+
+        if (nameEditText.text.isNullOrBlank()) {
+            return errorField(nameEditText, "Full Name is required")
+        }
+
+        if (emailEditText.text.isNullOrBlank()) {
+            return errorField(emailEditText, "Email is required")
+        }
+
+        if (passwordEditText.text.toString().length < 6) {
+            return errorField(passwordEditText, "Password must be at least 6 characters")
+        }
 
         val selectedGenderId = genderRadioGroup.checkedRadioButtonId
         if (selectedGenderId == -1) {
@@ -154,10 +189,15 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
 
-        if (imageUri == null) {
-            Toast.makeText(this, "Please upload a profile image", Toast.LENGTH_SHORT).show()
+        val resolver = contentResolver
+        try {
+            resolver.openInputStream(imageUri!!)?.close()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to load image, please try again", Toast.LENGTH_SHORT).show()
             return false
         }
+
+        val selectedUserType = userTypeSpinner.selectedItem.toString()
 
         return when {
             nameEditText.text.isNullOrBlank() -> errorField(nameEditText, "Full Name is required")
@@ -172,8 +212,10 @@ class SignUpActivity : AppCompatActivity() {
             contactEditText.text.isNullOrBlank() -> errorField(contactEditText, "Contact Number is required")
             !contactPattern.matches(contactEditText.text.toString()) -> errorField(contactEditText, "Contact must be 11 digits")
             locationEditText.text.isNullOrBlank() -> errorField(locationEditText, "Location is required")
-            expertiseEditText.text.isNullOrBlank() -> errorField(expertiseEditText, "Field of Expertise is required")
-            experienceEditText.text.isNullOrBlank() -> errorField(experienceEditText, "Experience is required")
+            selectedUserType == "Worker" && expertiseEditText.text.isNullOrBlank() ->
+                errorField(expertiseEditText, "Field of Expertise is required")
+            selectedUserType == "Worker" && experienceEditText.text.isNullOrBlank() ->
+                errorField(experienceEditText, "Experience is required")
             else -> true
         }
     }
@@ -184,6 +226,14 @@ class SignUpActivity : AppCompatActivity() {
         field.requestFocus()
         return false
     }
+
+    // Hashing the password that was entered for security purposes
+    private fun hashPassword(password: String): String {
+        return MessageDigest.getInstance("SHA-256")
+            .digest(password.toByteArray())
+            .joinToString("") { "%02x".format(it) }
+    }
+
 
     private fun isUserUnique(email: String, cnic: String, contact: String): Boolean {
         val db = dbHelper.readableDatabase
@@ -225,7 +275,7 @@ class SignUpActivity : AppCompatActivity() {
             put("userType", userTypeSpinner.selectedItem.toString())
             put("name", nameEditText.text.toString())
             put("email", emailEditText.text.toString())
-            put("password", passwordEditText.text.toString())
+            put("password", hashPassword(passwordEditText.text.toString()))
             put("cnic", cnicEditText.text.toString())
             put("contact", contactEditText.text.toString())
             put("location", locationEditText.text.toString())

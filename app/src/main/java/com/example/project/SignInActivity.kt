@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import java.security.MessageDigest
+
 import androidx.appcompat.app.AppCompatActivity
 
 class SignInActivity : AppCompatActivity() {
@@ -77,6 +79,13 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    // Making sure the hashed password is converted back so that it runs appropriately
+    private fun hashPassword(password: String): String {
+        return MessageDigest.getInstance("SHA-256")
+            .digest(password.toByteArray())
+            .joinToString("") { "%02x".format(it) }
+    }
+
     private fun setFormEnabled(enabled: Boolean) {
         emailEditText.isEnabled = enabled
         passwordEditText.isEnabled = enabled
@@ -84,10 +93,11 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun checkCredentials(userType: String, email: String, password: String): Boolean {
+        val hashedPassword = hashPassword(password)
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
             "SELECT * FROM users WHERE userType = ? AND email = ? AND password = ?",
-            arrayOf(userType, email, password)
+            arrayOf(userType, email, hashedPassword)
         )
         val isValid = cursor.moveToFirst()
         cursor.close()
@@ -96,10 +106,11 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun getUserInfo(userType: String, email: String, password: String): User? {
+        val hashedPassword = hashPassword(password)
         val db = dbHelper.readableDatabase
         val cursor: Cursor = db.rawQuery(
             "SELECT * FROM users WHERE userType = ? AND email = ? AND password = ?",
-            arrayOf(userType, email, password)
+            arrayOf(userType, email, hashedPassword)
         )
         var user: User? = null
         if (cursor.moveToFirst()) {
