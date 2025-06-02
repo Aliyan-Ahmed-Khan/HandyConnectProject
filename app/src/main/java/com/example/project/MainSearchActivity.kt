@@ -21,45 +21,82 @@ class MainSearchActivity : AppCompatActivity() {
         profileContainer = findViewById(R.id.profileContainer)
         userDatabaseHelper = UserDatabaseHelper(this)
 
-        loadWorkerProfiles()
+//        loadWorkerProfiles()
     }
 
-    private fun loadWorkerProfiles() {
-        // Clear any previous views
-        profileContainer.removeAllViews()
+//    private fun loadWorkerProfiles() {
+//        // Clear any previous views
+//        profileContainer.removeAllViews()
+//
+//        // Fetch workers
+//        val workers = userDatabaseHelper.getAllWorkers()
+//        println("Workers loaded: ${workers.size}")  // Debug log
+//
+//        for (worker in workers) {
+//            val profileView = LayoutInflater.from(this).inflate(R.layout.worker_card, profileContainer, false)
+//
+//            val nameTextView = profileView.findViewById<TextView>(R.id.workerName)
+//            val contactTextView = profileView.findViewById<TextView>(R.id.workerContact)
+//            val expertiseTextView = profileView.findViewById<TextView>(R.id.workerExpertise)
+//            val experienceTextView = profileView.findViewById<TextView>(R.id.workerExperience)
+//            val imageView = profileView.findViewById<ImageView>(R.id.workerImage)
+//
+//            nameTextView.text = "Name: ${worker.name}"
+//            contactTextView.text = "Contact: ${worker.contact}"
+//            expertiseTextView.text = "Expertise: ${worker.expertise}"
+//            experienceTextView.text = "Experience: ${worker.experience}"
+//
+//            if (worker.imageUri.isNotEmpty()) {
+//                imageView.setImageURI(Uri.parse(worker.imageUri))
+//            } else {
+//                imageView.setImageResource(R.drawable.ic_launcher_background)
+//            }
+//
+//            // Profile click listener
+//            profileView.setOnClickListener {
+//                val intent = Intent(this, WorkerProfileActivity::class.java)
+//                intent.putExtra("worker", worker)  // Pass the User object
+//                startActivity(intent)
+//            }
+//
+//            profileContainer.addView(profileView)
+//        }
+//    }
 
-        // Fetch workers
-        val workers = userDatabaseHelper.getAllWorkers()
-        println("Workers loaded: ${workers.size}")  // Debug log
+//    private fun loadWorkerProfiles() {
+//        profileContainer.removeAllViews()
+//
+//        val workers = LocalUserStore.userList.filter { it.userType == "Worker" }
+//        println("Workers loaded from local list: ${workers.size}")
+//
+//        for (worker in workers) {
+//            val profileView = LayoutInflater.from(this).inflate(R.layout.worker_card, profileContainer, false)
+//
+//            val nameTextView = profileView.findViewById<TextView>(R.id.workerName)
+//            val contactTextView = profileView.findViewById<TextView>(R.id.workerContact)
+//            val expertiseTextView = profileView.findViewById<TextView>(R.id.workerExpertise)
+//            val experienceTextView = profileView.findViewById<TextView>(R.id.workerExperience)
+//            val imageView = profileView.findViewById<ImageView>(R.id.workerImage)
+//
+//            nameTextView.text = "Name: ${worker.name}"
+//            contactTextView.text = "Contact: ${worker.contact}"
+//            expertiseTextView.text = "Expertise: ${worker.expertise ?: "N/A"}"
+//            experienceTextView.text = "Experience: ${worker.experience ?: "N/A"}"
+//
+//            if (!worker.imageUri.isNullOrEmpty()) {
+//                imageView.setImageURI(Uri.parse(worker.imageUri))
+//            } else {
+//                imageView.setImageResource(R.drawable.ic_launcher_background)
+//            }
+//
+//            profileView.setOnClickListener {
+//                val intent = Intent(this, WorkerProfileActivity::class.java)
+//                intent.putExtra("worker", worker) // You may need to make SignUpUser Parcelable for this to work
+//                startActivity(intent)
+//            }
+//
+//            profileContainer.addView(profileView)
+//        }
+//    }
 
-        for (worker in workers) {
-            val profileView = LayoutInflater.from(this).inflate(R.layout.worker_card, profileContainer, false)
-
-            val nameTextView = profileView.findViewById<TextView>(R.id.workerName)
-            val contactTextView = profileView.findViewById<TextView>(R.id.workerContact)
-            val expertiseTextView = profileView.findViewById<TextView>(R.id.workerExpertise)
-            val experienceTextView = profileView.findViewById<TextView>(R.id.workerExperience)
-            val imageView = profileView.findViewById<ImageView>(R.id.workerImage)
-
-            nameTextView.text = "Name: ${worker.name}"
-            contactTextView.text = "Contact: ${worker.contact}"
-            expertiseTextView.text = "Expertise: ${worker.expertise}"
-            experienceTextView.text = "Experience: ${worker.experience}"
-
-            if (worker.imageUri.isNotEmpty()) {
-                imageView.setImageURI(Uri.parse(worker.imageUri))
-            } else {
-                imageView.setImageResource(R.drawable.ic_launcher_background)
-            }
-
-            // Profile click listener
-            profileView.setOnClickListener {
-                val intent = Intent(this, WorkerProfileActivity::class.java)
-                intent.putExtra("worker", worker)  // Pass the User object
-                startActivity(intent)
-            }
-
-            profileContainer.addView(profileView)
-        }
-    }
 }

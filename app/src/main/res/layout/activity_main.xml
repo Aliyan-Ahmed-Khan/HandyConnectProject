@@ -9,7 +9,14 @@
     tools:openDrawer="start">
 
     <!-- Main content -->
-    <include layout="@layout/main_search_activity" />
+    <LinearLayout
+        android:id="@+id/profileContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/main_search_activity" />
+    </LinearLayout>
 
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
@@ -20,8 +27,5 @@
         app:menu="@menu/drawer_items"
         app:headerLayout="@layout/nav_header"
         android:background="@android:color/white" />
-
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

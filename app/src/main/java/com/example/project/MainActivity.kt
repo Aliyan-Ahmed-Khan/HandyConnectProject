@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
 import android.net.Uri
+import android.view.LayoutInflater
 import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             userEmailText.text = userEmail
 
             Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_LONG).show()
-//            loadWorkerProfiles()
+            // loadWorkerProfiles()
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -135,4 +136,44 @@ class MainActivity : AppCompatActivity() {
 //                profileContainer.addView(workerCard)
 //            }
 //        }
-    }
+
+//    private fun loadWorkerProfiles() {
+//        // Clear any previous views
+//        val profileContainer = findViewById<LinearLayout>(R.id.profileContainer)
+//
+//
+//        // Fetch workers from LocalUserStore
+//        val workers = LocalUserStore.userList.filter { it.userType == "Worker" }
+//        println("Workers loaded from store: ${workers.size}")  // Debug log
+//
+//        for (worker in workers) {
+//            val profileView = LayoutInflater.from(this).inflate(R.layout.worker_card, profileContainer, false)
+//
+//            val nameTextView = profileView.findViewById<TextView>(R.id.workerName)
+//            val contactTextView = profileView.findViewById<TextView>(R.id.workerContact)
+//            val expertiseTextView = profileView.findViewById<TextView>(R.id.workerExpertise)
+//            val experienceTextView = profileView.findViewById<TextView>(R.id.workerExperience)
+//            val imageView = profileView.findViewById<ImageView>(R.id.workerImage)
+//
+//            nameTextView.text = "Name: ${worker.name}"
+//            contactTextView.text = "Contact: ${worker.contact}"
+//            expertiseTextView.text = "Expertise: ${worker.expertise ?: "N/A"}"
+//            experienceTextView.text = "Experience: ${worker.experience ?: "N/A"}"
+//
+//            if (!worker.imageUri.isNullOrEmpty()) {
+//                imageView.setImageURI(Uri.parse(worker.imageUri))
+//            } else {
+//                imageView.setImageResource(R.drawable.ic_launcher_background)
+//            }
+//
+//            profileView.setOnClickListener {
+//                val intent = Intent(this, WorkerProfileActivity::class.java)
+//                intent.putExtra("worker", worker)
+//                startActivity(intent)
+//            }
+//
+//            profileContainer.addView(profileView)
+//        }
+//    }
+
+}

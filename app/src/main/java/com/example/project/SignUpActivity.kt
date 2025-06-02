@@ -270,23 +270,54 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun saveUserData() {
+        val userType = userTypeSpinner.selectedItem.toString()
+        val name = nameEditText.text.toString()
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+        val cnic = cnicEditText.text.toString()
+        val contact = contactEditText.text.toString()
+        val location = locationEditText.text.toString()
+        val expertise = expertiseEditText.text.toString()
+        val experience = experienceEditText.text.toString()
+        val gender = if (radioMale.isChecked) "Male" else "Female"
+        val image = imageUri?.toString()
+
+        // 1. Save to database (existing code)
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
-            put("userType", userTypeSpinner.selectedItem.toString())
-            put("name", nameEditText.text.toString())
-            put("email", emailEditText.text.toString())
-            put("password", hashPassword(passwordEditText.text.toString()))
-            put("cnic", cnicEditText.text.toString())
-            put("contact", contactEditText.text.toString())
-            put("location", locationEditText.text.toString())
-            put("expertise", expertiseEditText.text.toString())
-            put("experience", experienceEditText.text.toString())
-            put("gender", if (radioMale.isChecked) "Male" else "Female")
-            put("imageUri", imageUri.toString())
+            put("userType", userType)
+            put("name", name)
+            put("email", email)
+            put("password", hashPassword(password)) // hashed
+            put("cnic", cnic)
+            put("contact", contact)
+            put("location", location)
+            put("expertise", expertise)
+            put("experience", experience)
+            put("gender", gender)
+            put("imageUri", image)
         }
         db.insert("users", null, values)
         db.close()
+
+        // 2. Save to local list (new code)
+        LocalUserStore.userList.add(
+            SignUpUser(
+                userType,
+                name,
+                email,
+                password, // plain text here — you can also hash it if you prefer
+                cnic,
+                contact,
+                location,
+                if (userType == "Worker") expertise else null,
+                if (userType == "Worker") experience else null,
+                gender,
+                image
+            )
+        )
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
