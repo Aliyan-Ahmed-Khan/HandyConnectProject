@@ -1,9 +1,9 @@
 package com.example.project
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,55 +11,71 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainSearchActivity : AppCompatActivity() {
 
-    private lateinit var userDatabaseHelper: UserDatabaseHelper
+
     private lateinit var profileContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_search_activity)
+        setContentView(R.layout.activity_main)
 
         profileContainer = findViewById(R.id.profileContainer)
-        userDatabaseHelper = UserDatabaseHelper(this)
 
         loadWorkerProfiles()
     }
 
     private fun loadWorkerProfiles() {
-        // Clear any previous views
+        val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
+        val loggedInUserName = sharedPref.getString("logged_in_username", "Anonymous") ?: "Anonymous"
+
         profileContainer.removeAllViews()
 
-        // Fetch workers
-        val workers = userDatabaseHelper.getAllWorkers()
-        println("Workers loaded: ${workers.size}")  // Debug log
+        val workers = listOf(
+            Worker("Fahad", "123456", "Plumber", "5 years", "", 2),
+            Worker("Ali", "987654", "Electrician", "3 years", "", 4),
+            Worker("Charlie", "555666", "Painter", "4 years", "", 5),
+            Worker("David", "888999", "Carpenter", "6 years", "", 0),
+            Worker("Emma", "333222", "Welder", "2 years", "", 1)
+        )
 
         for (worker in workers) {
-            val profileView = LayoutInflater.from(this).inflate(R.layout.worker_card, profileContainer, false)
+            val workerCard = layoutInflater.inflate(R.layout.worker_card, profileContainer, false)
 
-            val nameTextView = profileView.findViewById<TextView>(R.id.workerName)
-            val contactTextView = profileView.findViewById<TextView>(R.id.workerContact)
-            val expertiseTextView = profileView.findViewById<TextView>(R.id.workerExpertise)
-            val experienceTextView = profileView.findViewById<TextView>(R.id.workerExperience)
-            val imageView = profileView.findViewById<ImageView>(R.id.workerImage)
+            val workerImage = workerCard.findViewById<ImageView>(R.id.workerImage)
+            val workerName = workerCard.findViewById<TextView>(R.id.workerName)
+            val workerContact = workerCard.findViewById<TextView>(R.id.workerContact)
+            val workerExpertise = workerCard.findViewById<TextView>(R.id.workerExpertise)
+            val workerExperience = workerCard.findViewById<TextView>(R.id.workerExperience)
 
-            nameTextView.text = "Name: ${worker.name}"
-            contactTextView.text = "Contact: ${worker.contact}"
-            expertiseTextView.text = "Expertise: ${worker.expertise}"
-            experienceTextView.text = "Experience: ${worker.experience}"
+            workerName.text = "Name: ${worker.name}"
+            workerContact.text = "Contact: ${worker.contact}"
+            workerExpertise.text = "Expertise: ${worker.expertise}"
+            workerExperience.text = "Experience: ${worker.experience}"
 
             if (worker.imageUri.isNotEmpty()) {
-                imageView.setImageURI(Uri.parse(worker.imageUri))
+                workerImage.setImageURI(Uri.parse(worker.imageUri))
             } else {
-                imageView.setImageResource(R.drawable.ic_launcher_background)
+                workerImage.setImageResource(R.drawable.ic_launcher_background)
             }
 
-            // Profile click listener
-            profileView.setOnClickListener {
-                val intent = Intent(this, WorkerProfileActivity::class.java)
-                intent.putExtra("worker", worker)  // Pass the User object
+            val reportCount = sharedPref.getInt("report_${worker.name}", 0)
+            if (reportCount >= 5) {
+                workerCard.setBackgroundColor(Color.parseColor("#FFCDD2")) // Light red
+            }
+
+            workerCard.setOnClickListener {
+                val intent = Intent(this, WorkerProfileActivity::class.java).apply {
+                    putExtra("name", worker.name)
+                    putExtra("contact", worker.contact)
+                    putExtra("expertise", worker.expertise)
+                    putExtra("experience", worker.experience)
+                    putExtra("imageUri", worker.imageUri)
+                    putExtra("reportCount", reportCount)
+                    putExtra("userName", loggedInUserName) // pass username to next activity
+                }
                 startActivity(intent)
             }
 
-            profileContainer.addView(profileView)
+            profileContainer.addView(workerCard)
         }
     }
 }

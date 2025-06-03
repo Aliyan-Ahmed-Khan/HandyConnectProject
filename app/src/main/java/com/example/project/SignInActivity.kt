@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SignInActivity : AppCompatActivity() {
 
+
     private lateinit var userTypeSpinner: Spinner
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -57,6 +58,10 @@ class SignInActivity : AppCompatActivity() {
                     // Retrieve user details
                     val userInfo = getUserInfo(userType, email, password)
                     if (userInfo != null) {
+                        // Save logged-in username to SharedPreferences
+                        val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
+                        sharedPref.edit().putString("logged_in_username", userInfo.name).apply()
+
                         val intent = Intent(this, MainActivity::class.java)
                         intent.putExtra("userName", userInfo.name)
                         intent.putExtra("userEmail", userInfo.email)
@@ -91,7 +96,6 @@ class SignInActivity : AppCompatActivity() {
         )
         val isValid = cursor.moveToFirst()
         cursor.close()
-        db.close()
         return isValid
     }
 
@@ -114,7 +118,6 @@ class SignInActivity : AppCompatActivity() {
             }
         }
         cursor.close()
-        db.close()
         return user
     }
 

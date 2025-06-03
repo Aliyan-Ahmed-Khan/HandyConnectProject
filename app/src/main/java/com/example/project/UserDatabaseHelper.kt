@@ -81,6 +81,7 @@ class UserDatabaseHelper(context: Context) :
                     userType = cursor.getString(cursor.getColumnIndexOrThrow("userType")),
                     name = cursor.getString(cursor.getColumnIndexOrThrow("name")),
                     email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                    password = cursor.getString(cursor.getColumnIndexOrThrow("password")),
                     cnic = cursor.getString(cursor.getColumnIndexOrThrow("cnic")),
                     contact = cursor.getString(cursor.getColumnIndexOrThrow("contact")),
                     location = cursor.getString(cursor.getColumnIndexOrThrow("location")),
