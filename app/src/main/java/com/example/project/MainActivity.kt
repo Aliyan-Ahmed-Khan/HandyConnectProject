@@ -90,11 +90,11 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
 
         val workers = listOf(
-            Worker("Alice", "123456", "Plumber", "5 years", "", 2),
-            Worker("Bob", "987654", "Electrician", "3 years", "", 0),
-            Worker("Charlie", "555666", "Painter", "4 years", "", 1),
-            Worker("David", "888999", "Carpenter", "6 years", "", 3),
-            Worker("Emma", "333222", "Welder", "2 years", "", 0)
+            Worker("Aliyan", "03171224600", "Plumber", "5 years", "", 0),
+            Worker("Ibad", "03473291584", "Electrician", "3 years", "", 0),
+            Worker("Obaid", "03483486238", "Painter", "4 years", "", 0),
+            Worker("Minhaj", "03102030405", "Carpenter", "6 years", "", 0),
+            Worker("Fahad", "03171234567", "Welder", "2 years", "", 0)
         )
 
         for (worker in workers) {

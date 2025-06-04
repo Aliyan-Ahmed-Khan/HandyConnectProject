@@ -19,7 +19,6 @@ class MainSearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         profileContainer = findViewById(R.id.profileContainer)
-
         loadWorkerProfiles()
     }
 

@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Project</string>
 
+    <string name="Title">HandyConnect</string>
+    <string name="DescriptionText">Connecting you with trusted local experts!</string>
+    <string name="LoginBtn">Login</string>
+    <string name="SignUpText">Do not have an account? Sign Up</string>
+
+    <string name="SignInTitle">Sign In</string>
+    <string name="EmailHint">Email</string>
+    <string name="PasswordHint">Password</string>
+
+    <string name="SignUpTitle">Sign Up</string>
+
     <string name="select_user_type">Select User Type</string>
     <string-array name="user_types">
         <item>Select User Type</item>

@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SignInActivity : AppCompatActivity() {
 
-
     private lateinit var userTypeSpinner: Spinner
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -76,12 +75,6 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
         }
-
-        val clickMeButton = findViewById<Button>(R.id.clickme)
-        clickMeButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     // Making sure the hashed password is converted back so that it runs appropriately
@@ -94,7 +87,6 @@ class SignInActivity : AppCompatActivity() {
     private fun setFormEnabled(enabled: Boolean) {
         emailEditText.isEnabled = enabled
         passwordEditText.isEnabled = enabled
-        signInButton.isEnabled = enabled
     }
 
     private fun checkCredentials(userType: String, email: String, password: String): Boolean {

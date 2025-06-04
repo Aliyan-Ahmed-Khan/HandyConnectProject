@@ -2,14 +2,14 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="vertical"
-    android:scrollbarSize="2dp"
+    android:scrollbarSize="1dp"
     android:scrollbarThumbVertical="@android:color/darker_gray"
     android:scrollbarStyle="insideOverlay">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,36 +18,38 @@
 
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="50dp"
-        android:contentDescription="App logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/Title"
         android:foregroundTint="#121212"
+        android:tint="#D7C49E"
         android:src="@drawable/handshake_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseAppTint" />
 
     <TextView
         android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="@string/SignUpTitle"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#33936d"
+        android:textColor="#291292"
         app:layout_constraintTop_toTopOf="@id/logoImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="125dp"/>
 
     <Spinner
         android:id="@+id/userTypeSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="76dp"
         android:entries="@array/user_types"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
@@ -74,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:enabled="false"
-        android:hint="Email"
+        android:hint="@string/EmailHint"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,13 +89,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:enabled="false"
-        android:hint="Password"
+        android:hint="@string/PasswordHint"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
-    <!-- Confirm Password -->
+
     <EditText
         android:id="@+id/editTextConfirmPassword"
         android:layout_width="0dp"
@@ -105,37 +107,38 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        tools:ignore="HardcodedText" />
 
-        <!-- CNIC -->
         <EditText
             android:id="@+id/editTextCnic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="false"
-            android:hint="CNIC (e.g., 1234567890123)"
+            android:hint="CNIC (e.g, 4250166760083)"
             android:inputType="number"
             android:minHeight="48dp"
             android:maxLength="13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@id/editTextConfirmPassword"
+            tools:ignore="HardcodedText" />
 
-        <!-- Contact -->
         <EditText
             android:id="@+id/editTextContact"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="false"
-            android:hint="Contact Number (e.g., 03331122334)"
+            android:hint="Contact Number (e.g, 03331122334)"
             android:inputType="phone"
             android:minHeight="48dp"
             android:maxLength="11"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextCnic" />
+            app:layout_constraintTop_toBottomOf="@id/editTextCnic"
+            tools:ignore="HardcodedText" />
 
         <!-- Gender Label -->
         <TextView
@@ -148,7 +151,8 @@
             android:layout_marginTop="16dp"
             android:enabled="false"
             app:layout_constraintTop_toBottomOf="@id/editTextContact"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText" />
 
         <!-- Gender Radio Buttons -->
         <RadioGroup
@@ -167,7 +171,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Male"
-                android:enabled="false"/>
+                android:enabled="false"
+                tools:ignore="HardcodedText" />
 
             <RadioButton
                 android:id="@+id/radioFemale"
@@ -175,10 +180,10 @@
                 android:layout_height="wrap_content"
                 android:text="Female"
                 android:layout_marginStart="32dp"
-                android:enabled="false"/>
+                android:enabled="false"
+                tools:ignore="HardcodedText" />
         </RadioGroup>
 
-        <!-- Location -->
         <EditText
             android:id="@+id/editTextLocation"
             android:layout_width="0dp"
@@ -190,10 +195,9 @@
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radioGroupGender" />
+            app:layout_constraintTop_toBottomOf="@id/radioGroupGender"
+            tools:ignore="HardcodedText" />
 
-
-        <!-- Profile ImageView -->
         <ImageView
             android:id="@+id/profileImageView"
             android:layout_width="100dp"
@@ -203,21 +207,29 @@
             android:contentDescription="Profile Image Preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextLocation" />
+            app:layout_constraintTop_toBottomOf="@id/editTextLocation"
+            tools:ignore="HardcodedText" />
 
-        <!-- Upload Image Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button"
             android:id="@+id/buttonUploadImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="220dp"
+            android:layout_height="49dp"
             android:enabled="false"
             android:text="Upload Profile Image"
+            android:backgroundTint="#193161"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFFFF"
+            android:textSize="15sp"
+            app:cornerRadius="6dp"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
+            app:layout_constraintTop_toBottomOf="@id/profileImageView"
+            tools:ignore="HardcodedText"
+            android:layout_marginTop="8dp" />
 
-    <!-- Field of Expertise -->
+
         <EditText
             android:id="@+id/editTextExpertise"
             android:layout_width="0dp"
@@ -232,7 +244,6 @@
             app:layout_constraintTop_toBottomOf="@id/buttonUploadImage"
             android:visibility="gone" />
 
-    <!-- Experience -->
     <EditText
         android:id="@+id/editTextExperience"
         android:layout_width="0dp"
@@ -244,19 +255,26 @@
         app:layout_constraintTop_toBottomOf="@id/editTextExpertise"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="HardcodedText" />
 
-
-    <Button
-        android:id="@+id/buttonSignUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Create Account"
-        app:layout_constraintTop_toBottomOf="@id/editTextExperience"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
-
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/buttonSignUp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:text="Create an Account"
+            android:backgroundTint="#193161"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            app:cornerRadius="7dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextExperience"
+            tools:ignore="HardcodedText"
+            android:layout_marginTop="24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

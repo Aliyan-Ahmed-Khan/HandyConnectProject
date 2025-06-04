@@ -301,23 +301,22 @@ class SignUpActivity : AppCompatActivity() {
         db.close()
 
         // 2. Save to local list (new code)
-        LocalUserStore.userList.add(
-            SignUpUser(
-                userType,
-                name,
-                email,
-                password, // plain text here — you can also hash it if you prefer
-                cnic,
-                contact,
-                location,
-                if (userType == "Worker") expertise else null,
-                if (userType == "Worker") experience else null,
-                gender,
-                image
-            )
-        )
+//        LocalUserStore.userList.add(
+//            SignUpUser(
+//                userType,
+//                name,
+//                email,
+//                password, // plain text here — you can also hash it if you prefer
+//                cnic,
+//                contact,
+//                location,
+//                if (userType == "Worker") expertise else null,
+//                if (userType == "Worker") experience else null,
+//                gender,
+//                image
+//            )
+//        )
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -11,15 +11,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#33936d"
-        android:padding="16dp">
+        android:background="#193161"
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/menuIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/menu"
-            android:contentDescription="Menu"
+            android:contentDescription="@string/Title"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:tint="#FFFFFF"
@@ -31,7 +31,8 @@
             android:layout_height="42dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/handshake_logo"
-            android:contentDescription="Logo" />
+            android:contentDescription="@string/Title"
+            app:tint="#D7C49E" />
 
         <ImageButton
             android:id="@+id/buttonProfile"
@@ -39,7 +40,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
-            android:contentDescription="Profile"
+            android:contentDescription="@string/Title"
             android:src="@drawable/person"
             android:tint="@android:color/white"
             tools:ignore="UseAppTint"/>
@@ -54,12 +55,14 @@
         android:padding="12dp"
         android:layout_margin="16dp"
         android:background="@android:drawable/edit_text"
-        android:inputType="text" />
+        android:inputType="text"
+        tools:ignore="HardcodedText" />
 
     <!-- Profiles Container -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/searchScrollView">
 
         <LinearLayout
             android:id="@+id/profileContainer"
