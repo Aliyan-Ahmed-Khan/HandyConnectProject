@@ -29,9 +29,10 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_report"
             android:scaleType="fitCenter"
-            tools:ignore="ContentDescription,UseAppTint"/>
+            android:src="@drawable/ic_report"
+            app:tint="#D7C49E"
+            tools:ignore="ContentDescription,UseAppTint,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </RelativeLayout>
 
