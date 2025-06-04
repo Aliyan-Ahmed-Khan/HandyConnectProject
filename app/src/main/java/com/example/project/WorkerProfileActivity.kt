@@ -1,6 +1,6 @@
-// com/example/project/WorkerProfileActivity.kt
 package com.example.project
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,7 +12,6 @@ import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
 
 class WorkerProfileActivity : AppCompatActivity() {
 
@@ -23,14 +22,10 @@ class WorkerProfileActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var workerReportCount: TextView
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_worker_profile)
-
-        val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { finish() }
 
         name = intent.getStringExtra("name") ?: ""
         val contact = intent.getStringExtra("contact")
@@ -50,11 +45,11 @@ class WorkerProfileActivity : AppCompatActivity() {
         val callButton = findViewById<Button>(R.id.buttonCall)
         reviewsContainer = findViewById(R.id.reviewsContainer)
 
-        val resetReportsButton = findViewById<Button>(R.id.resetReportsButton)
+        val resetReportsButton = findViewById<ImageButton>(R.id.reportButton)
         resetReportsButton.setOnClickListener {
-            sharedPref.edit().putInt("report_$name", 0).apply()
-            updateReportCountDisplay()
-            Toast.makeText(this, "Report count reset for $name.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ReportActivity::class.java)
+            intent.putExtra("workerName", name)
+            startActivityForResult(intent,1002)
         }
 
         workerName.text = "Name: $name"
@@ -70,7 +65,7 @@ class WorkerProfileActivity : AppCompatActivity() {
         if (!imageUri.isNullOrEmpty()) {
             workerImage.setImageURI(Uri.parse(imageUri))
         } else {
-            workerImage.setImageResource(R.drawable.ic_launcher_background)
+            workerImage.setImageResource(R.drawable.person)
         }
 
         updateReportCountDisplay()

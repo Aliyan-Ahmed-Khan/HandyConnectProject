@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class ReviewActivity : AppCompatActivity() {
 
-
     private lateinit var editTextReview: EditText
     private lateinit var submitButton: Button
 

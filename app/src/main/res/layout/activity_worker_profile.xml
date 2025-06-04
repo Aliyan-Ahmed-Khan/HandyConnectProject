@@ -1,30 +1,52 @@
 <!-- res/layout/activity_worker_profile.xml -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+    <!-- Header -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:titleTextColor="@android:color/white"
-        android:title="Worker Profile"
-        app:menu="@menu/worker_profile_menu" />
+        android:background="#193161"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="40dp"
+            android:layout_height="42dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/handshake_logo"
+            android:contentDescription="@string/Title"
+            app:tint="#D7C49E" />
+
+        <ImageButton
+            android:id="@+id/reportButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_report"
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription,UseAppTint"/>
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="652dp"
         android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/workerProfileImage"
@@ -32,19 +54,21 @@
                 android:layout_height="140dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/profile_image_border"
+                android:padding="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/person"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="12dp"
-                android:padding="12dp"
                 android:background="@android:color/white"
-                android:elevation="2dp"
+                android:clipChildren="false"
                 android:clipToPadding="false"
-                android:clipChildren="false">
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="12dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -55,56 +79,60 @@
                     android:id="@+id/workerProfileName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     android:gravity="start"
                     android:paddingTop="8dp"
-                    android:textColor="@android:color/black" />
+                    android:text="Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#DDDDDD" />
+                    android:background="#000000" />
 
                 <TextView
                     android:id="@+id/workerProfileContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Contact"
                     android:paddingTop="8dp"
-                    android:textColor="@android:color/black" />
+                    android:text="Contact"
+                    android:textColor="@android:color/black"
+                    tools:ignore="HardcodedText" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#DDDDDD" />
+                    android:background="#000000" />
 
                 <TextView
                     android:id="@+id/workerProfileExpertise"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Expertise"
                     android:paddingTop="8dp"
-                    android:textColor="@android:color/black" />
+                    android:text="Expertise"
+                    android:textColor="@android:color/black"
+                    tools:ignore="HardcodedText" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#DDDDDD" />
+                    android:background="#000000" />
 
                 <TextView
                     android:id="@+id/workerProfileExperience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Experience"
                     android:paddingTop="8dp"
-                    android:textColor="@android:color/black" />
+                    android:text="Experience"
+                    android:textColor="@android:color/black"
+                    tools:ignore="HardcodedText" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#DDDDDD" />
+                    android:background="#000000" />
             </LinearLayout>
 
             <TextView
@@ -112,57 +140,57 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:paddingTop="4dp"
                 android:text="Reports: 0"
-                android:textSize="16sp"
                 android:textColor="@android:color/holo_red_dark"
-                android:paddingTop="4dp" />
-
-            <Button
-                android:id="@+id/resetReportsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reset Reports"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal" />
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/buttonCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="#193161"
+                android:drawableLeft="@drawable/call"
                 android:text="Call Worker"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/teal_700"
                 android:textColor="@android:color/white"
-                android:layout_gravity="center_horizontal" />
-
-            <Button
-                android:id="@+id/buttonReview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/green"
-                android:text="Write a Review"
-                android:textColor="@android:color/white" />
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="start"
+                android:paddingTop="4dp"
                 android:text="Reviews"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp"
-                android:paddingTop="4dp"
-                android:gravity="start"
-                android:textColor="@android:color/black" />
+                tools:ignore="HardcodedText" />
 
             <LinearLayout
                 android:id="@+id/reviewsContainer"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingTop="8dp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonReview"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:backgroundTint="#193161"
+                android:drawableLeft="@drawable/message"
+                android:gravity="center"
+                android:text="Write a Review"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp"
+                app:cornerRadius="7dp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

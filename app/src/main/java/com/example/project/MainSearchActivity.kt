@@ -53,7 +53,7 @@ class MainSearchActivity : AppCompatActivity() {
             if (worker.imageUri.isNotEmpty()) {
                 workerImage.setImageURI(Uri.parse(worker.imageUri))
             } else {
-                workerImage.setImageResource(R.drawable.ic_launcher_background)
+                workerImage.setImageResource(R.drawable.person)
             }
 
             val reportCount = sharedPref.getInt("report_${worker.name}", 0)

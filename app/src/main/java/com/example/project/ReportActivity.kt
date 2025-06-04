@@ -1,13 +1,13 @@
 package com.example.project
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
-import com.example.project.R
 
 class ReportActivity : AppCompatActivity() {
 
@@ -17,9 +17,8 @@ class ReportActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
 
-        val titleLabel = findViewById<TextView>(R.id.report_title)
-        val reportInput = findViewById<EditText>(R.id.report_input)
-        val reportButton = findViewById<Button>(R.id.submit_button)
+        val reportInput = findViewById<EditText>(R.id.reportInput)
+        val reportButton = findViewById<Button>(R.id.submitButton)
 
         workerName = intent.getStringExtra("worker_name") ?: "the worker"
 
@@ -35,7 +34,7 @@ class ReportActivity : AppCompatActivity() {
     }
 
     private fun showConfirmationDialog(reportMessage: String) {
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Confirm Report")
             .setMessage("Are you sure you want to report $workerName?")
             .setPositiveButton("Yes") { _, _ ->
@@ -45,5 +44,7 @@ class ReportActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)
     }
 }

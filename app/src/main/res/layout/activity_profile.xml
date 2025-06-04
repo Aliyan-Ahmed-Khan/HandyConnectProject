@@ -30,7 +30,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/navigatetoreport"
+                android:src="@drawable/navigate_to_report"
                 android:contentDescription="More Options"
                 android:visibility="gone" />
         </RelativeLayout>

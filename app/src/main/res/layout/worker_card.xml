@@ -20,8 +20,9 @@
             android:id="@+id/workerImage"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
+            android:src="@drawable/person"
+            android:padding="10dp"
+            android:contentDescription="@string/Title"
             android:layout_marginEnd="12dp"/>
 
         <LinearLayout
@@ -35,26 +36,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:textSize="16sp"/>
+                android:textColor="#193161"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/workerContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#193161"/>
 
             <TextView
                 android:id="@+id/workerExpertise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#193161"/>
 
             <TextView
                 android:id="@+id/workerExperience"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#193161"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

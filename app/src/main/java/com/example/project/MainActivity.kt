@@ -17,7 +17,6 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
@@ -42,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_History -> Toast.makeText(this, "Menu Clicked", Toast.LENGTH_SHORT).show()
-                R.id.nav_bookmark -> Toast.makeText(this, "Cart Clicked", Toast.LENGTH_SHORT).show()
+                R.id.nav_History -> Toast.makeText(this, "History Clicked", Toast.LENGTH_SHORT).show()
+                R.id.nav_bookmark -> Toast.makeText(this, "Bookmark Clicked", Toast.LENGTH_SHORT).show()
                 R.id.nav_logout -> {
                     Toast.makeText(this, "You have been logged out", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, SignInActivity::class.java))
