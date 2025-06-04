@@ -7,6 +7,7 @@ data class User(
     val userType: String,
     val name: String,
     val email: String,
+    val password: String,
     val cnic: String,
     val contact: String,
     val location: String,
@@ -14,4 +15,4 @@ data class User(
     val experience: String,
     val gender: String,
     val imageUri: String
-): Serializable
+) : Serializable

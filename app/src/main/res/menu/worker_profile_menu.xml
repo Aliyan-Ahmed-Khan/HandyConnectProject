@@ -1,0 +1,9 @@
+<!-- res/menu/worker_profile_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_report"
+        android:title="Report"
+        android:icon="@drawable/ic_report"
+        app:showAsAction="ifRoom" />
+</menu>
