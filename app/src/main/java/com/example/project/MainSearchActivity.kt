@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainSearchActivity : AppCompatActivity() {
 
-
     private lateinit var profileContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {

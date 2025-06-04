@@ -1,15 +1,16 @@
 package com.example.project
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,7 +20,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var searchDropdown: AutoCompleteTextView
+    private lateinit var profileContainer: LinearLayout
+    private lateinit var noResultsText: TextView
+
+    private val allWorkers = listOf(
+        Worker("Aliyan", "03171224600", "Plumber", "5 years", "", 0),
+        Worker("Ibad", "03473291584", "Electrician", "3 years", "", 0),
+        Worker("Obaid", "03483486238", "Painter", "4 years", "", 0),
+        Worker("Minhaj", "03102030405", "Carpenter", "6 years", "", 0),
+        Worker("Fahad", "03171234567", "Welder", "2 years", "", 0)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +38,27 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
+        searchDropdown = findViewById(R.id.searchDropdown)
+        profileContainer = findViewById(R.id.profileContainer)
+        noResultsText = findViewById(R.id.noResultsText) // Make sure you add this in your XML
 
-        val menuIcon = findViewById<ImageView>(R.id.menuIcon)
-        menuIcon.setOnClickListener {
+        findViewById<ImageView>(R.id.menuIcon).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        val buttonProfile = findViewById<ImageView>(R.id.buttonProfile)
-        buttonProfile.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+        findViewById<ImageView>(R.id.buttonProfile).setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
+
+        val headerView = navigationView.getHeaderView(0)
+        val userName = intent.getStringExtra("userName")
+        val userEmail = intent.getStringExtra("userEmail")
+        val userType = intent.getStringExtra("userType")
+
+        headerView.findViewById<TextView>(R.id.user_name).text = userName
+        headerView.findViewById<TextView>(R.id.user_email).text = userEmail
+
+        Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_SHORT).show()
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -53,72 +74,60 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        val headerView = navigationView.getHeaderView(0)
-        val profileImage = headerView.findViewById<ImageView>(R.id.profile_image)
-        val userNameText = headerView.findViewById<TextView>(R.id.user_name)
-        val userEmailText = headerView.findViewById<TextView>(R.id.user_email)
+        // Sort alphabetically by expertise before display
+        val sortedWorkers = allWorkers.sortedBy { it.expertise.lowercase() }
 
-        val userName = intent.getStringExtra("userName")
-        val userEmail = intent.getStringExtra("userEmail")
-        val userType = intent.getStringExtra("userType")
+        // Initial display
+        loadWorkerProfiles(sortedWorkers)
 
-        userNameText.text = userName
-        userEmailText.text = userEmail
+        // Live Search
+        searchDropdown.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim().lowercase()
+                val filtered = if (query.isEmpty()) {
+                    sortedWorkers
+                } else {
+                    sortedWorkers.filter { it.expertise.lowercase().contains(query) }
+                }
+                loadWorkerProfiles(filtered)
+            }
 
-        Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_SHORT).show()
-
-        loadWorkerProfiles()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    private fun loadWorkerProfiles() {
-        val profileContainer = findViewById<LinearLayout>(R.id.profileContainer)
+    @SuppressLint("SetTextI18n", "UseKtx")
+    private fun loadWorkerProfiles(workers: List<Worker>) {
         profileContainer.removeAllViews()
 
-        val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
+        if (workers.isEmpty()) {
+            noResultsText.visibility = View.VISIBLE
+            return
+        } else {
+            noResultsText.visibility = View.GONE
+        }
 
-        val workers = listOf(
-            Worker("Aliyan", "03171224600", "Plumber", "5 years", "", 0),
-            Worker("Ibad", "03473291584", "Electrician", "3 years", "", 0),
-            Worker("Obaid", "03483486238", "Painter", "4 years", "", 0),
-            Worker("Minhaj", "03102030405", "Carpenter", "6 years", "", 0),
-            Worker("Fahad", "03171234567", "Welder", "2 years", "", 0)
-        )
+        val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
 
         for (worker in workers) {
             val workerCard = layoutInflater.inflate(R.layout.worker_card, profileContainer, false)
 
-            val workerImage = workerCard.findViewById<ImageView>(R.id.workerImage)
-            val workerName = workerCard.findViewById<TextView>(R.id.workerName)
-            val workerContact = workerCard.findViewById<TextView>(R.id.workerContact)
-            val workerExpertise = workerCard.findViewById<TextView>(R.id.workerExpertise)
-            val workerExperience = workerCard.findViewById<TextView>(R.id.workerExperience)
+            workerCard.findViewById<TextView>(R.id.workerName).text = "Name: ${worker.name}"
+            workerCard.findViewById<TextView>(R.id.workerContact).text = "Contact: ${worker.contact}"
+            workerCard.findViewById<TextView>(R.id.workerExpertise).text = "Expertise: ${worker.expertise}"
+            workerCard.findViewById<TextView>(R.id.workerExperience).text = "Experience: ${worker.experience}"
 
-            workerName.text = "Name: ${worker.name}"
-            workerContact.text = "Contact: ${worker.contact}"
-            workerExpertise.text = "Expertise: ${worker.expertise}"
-            workerExperience.text = "Experience: ${worker.experience}"
-
+            val imageView = workerCard.findViewById<ImageView>(R.id.workerImage)
             if (worker.imageUri.isNotEmpty()) {
-                workerImage.setImageURI(Uri.parse(worker.imageUri))
+                imageView.setImageURI(Uri.parse(worker.imageUri))
             } else {
-                workerImage.setImageResource(R.drawable.ic_launcher_background)
+                imageView.setImageResource(R.drawable.person)
             }
 
             val reportCount = sharedPref.getInt("report_${worker.name}", 0)
             if (reportCount >= 5) {
-                workerCard.setBackgroundColor(Color.parseColor("#FFCDD2"))
+                workerCard.setBackgroundColor(Color.parseColor("#A90A0A"))
             }
 
             workerCard.setOnClickListener {
@@ -135,5 +144,28 @@ class MainActivity : AppCompatActivity() {
 
             profileContainer.addView(workerCard)
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    finishAffinity() // Closes the app completely
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 }
