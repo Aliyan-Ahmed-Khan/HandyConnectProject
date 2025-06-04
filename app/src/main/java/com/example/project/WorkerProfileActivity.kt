@@ -48,7 +48,7 @@ class WorkerProfileActivity : AppCompatActivity() {
         val resetReportsButton = findViewById<ImageButton>(R.id.reportButton)
         resetReportsButton.setOnClickListener {
             val intent = Intent(this, ReportActivity::class.java)
-            intent.putExtra("workerName", name)
+            intent.putExtra("name", name)
             startActivityForResult(intent,1002)
         }
 
@@ -94,39 +94,6 @@ class WorkerProfileActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_report -> {
-                AlertDialog.Builder(this)
-                    .setTitle("Report Worker")
-                    .setMessage("Are you sure you want to report $name?")
-                    .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
-                        incrementReportCount()
-                        Toast.makeText(
-                            this,
-                            "Your report has been submitted. We will look into this.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                    .setNegativeButton("No", null)
-                    .show()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun incrementReportCount() {
-        val currentCount = sharedPref.getInt("report_$name", 0)
-        val newCount = currentCount + 1
-        sharedPref.edit().putInt("report_$name", newCount).apply()
-        updateReportCountDisplay()
-    }
-
     private fun updateReportCountDisplay() {
         val reportCount = sharedPref.getInt("report_$name", 0)
         workerReportCount.text = "Reports: $reportCount"
@@ -135,12 +102,13 @@ class WorkerProfileActivity : AppCompatActivity() {
             workerReportCount.setTextColor(Color.RED)
             Toast.makeText(
                 this,
-                "$name's profile has been locked due to multiple reports.",
+                "$name's profile has had been reported multiple times now. We suggest you to look for someone else.",
                 Toast.LENGTH_LONG
             ).show()
         } else {
             workerReportCount.setTextColor(Color.BLACK)
         }
+        Toast.makeText(this, "Report count refreshed", Toast.LENGTH_SHORT).show()
     }
 
     private fun saveReviews() {
@@ -178,7 +146,9 @@ class WorkerProfileActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == 1001 && resultCode == RESULT_OK) {
+            // REVIEW
             val reviewText = data?.getStringExtra("reviewText") ?: return
             val reviewerName = data.getStringExtra("reviewerName") ?: "Anonymous"
 
@@ -186,6 +156,10 @@ class WorkerProfileActivity : AppCompatActivity() {
             reviewsList.add(fullReview)
             saveReviews()
             loadReviews()
+
+        } else if (requestCode == 1002 && resultCode == RESULT_OK) {
+            // REPORT
+            updateReportCountDisplay()
         }
     }
 }

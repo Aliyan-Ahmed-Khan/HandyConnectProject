@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         userNameText.text = userName
         userEmailText.text = userEmail
 
-        Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Welcome $userName ($userType)", Toast.LENGTH_SHORT).show()
 
         loadWorkerProfiles()
     }

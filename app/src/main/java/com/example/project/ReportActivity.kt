@@ -20,7 +20,7 @@ class ReportActivity : AppCompatActivity() {
         val reportInput = findViewById<EditText>(R.id.reportInput)
         val reportButton = findViewById<Button>(R.id.submitButton)
 
-        workerName = intent.getStringExtra("worker_name") ?: "the worker"
+        workerName = intent.getStringExtra("name") ?: "the worker"
 
         reportButton.setOnClickListener {
             val reportText = reportInput.text.toString().trim()
@@ -34,14 +34,23 @@ class ReportActivity : AppCompatActivity() {
     }
 
     private fun showConfirmationDialog(reportMessage: String) {
+        val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
+        val currentCount = sharedPref.getInt("report_$workerName", 0)
+        sharedPref.edit().putInt("report_$workerName", currentCount).apply()
+
         val dialog = AlertDialog.Builder(this)
             .setTitle("Confirm Report")
             .setMessage("Are you sure you want to report $workerName?")
             .setPositiveButton("Yes") { _, _ ->
-                // TODO: Send reportMessage to backend
+                val sharedPref = getSharedPreferences("reviews_prefs", MODE_PRIVATE)
+                val currentCount = sharedPref.getInt("report_$workerName", 0)
+                sharedPref.edit().putInt("report_$workerName", currentCount + 1).apply()
+
                 Toast.makeText(this, "Your report has been submitted.", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_OK) // optional: signal back to refresh data
                 finish()
             }
+
             .setNegativeButton("Cancel", null)
             .show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)

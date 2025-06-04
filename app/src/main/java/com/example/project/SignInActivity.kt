@@ -54,7 +54,7 @@ class SignInActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 if (checkCredentials(userType, email, password)) {
-                    Toast.makeText(this, "Login successful as $userType", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
                     // Retrieve user details
                     val userInfo = getUserInfo(userType, email, password)
