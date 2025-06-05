@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         Worker("Ibad", "03473291584", "Electrician", "3 years", "", 0),
         Worker("Obaid", "03483486238", "Painter", "4 years", "", 0),
         Worker("Minhaj", "03102030405", "Carpenter", "6 years", "", 0),
-        Worker("Fahad", "03171234567", "Welder", "2 years", "", 0)
+        Worker("Fahad", "03171234567", "Welder", "2 years", "", 0),
+        Worker("Jawwwad", "03171237643", "Mechanic", "2 years", "", 0),
+        Worker("Ahsan", "03829234567", "Carpenter", "3 years", "", 0),
+        Worker("Salman", "03171234123", "Electrician", "6 years", "", 0)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

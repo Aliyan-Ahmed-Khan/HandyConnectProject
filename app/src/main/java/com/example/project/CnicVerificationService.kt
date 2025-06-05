@@ -6,7 +6,9 @@ object CnicVerificationService {
     private val verifiedCnicList = listOf(
         "1111111111111",
         "2222222222222",
-        "4250100000000"
+        "4250100000000",
+        "3333333333333",
+        "4444444444444"
     )
 
     // Method to verify CNIC
