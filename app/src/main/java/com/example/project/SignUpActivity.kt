@@ -125,6 +125,7 @@ class SignUpActivity : AppCompatActivity() {
             if (userTypeSpinner.selectedItemPosition == 0) {
                 Toast.makeText(this, "Please select your field", Toast.LENGTH_SHORT).show()
             } else {
+
                 if (validateFields()) {
                     val email = emailEditText.text.toString()
                     val cnic = cnicEditText.text.toString()
@@ -181,6 +182,10 @@ class SignUpActivity : AppCompatActivity() {
 
         if (passwordEditText.text.toString().length < 6) {
             return errorField(passwordEditText, "Password must be at least 6 characters")
+        }
+
+        if (!CnicVerificationService.isCnicVerified(cnicEditText.text.toString())) {
+            return errorField(cnicEditText, "CNIC is not verified. Please enter a valid CNIC.")
         }
 
         val selectedGenderId = genderRadioGroup.checkedRadioButtonId
